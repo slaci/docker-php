@@ -40,7 +40,8 @@ RUN set -xe \
         memcached \
         imagick \
         redis \
-        igbinary" \
+        igbinary \
+        mongodb" \
     && if [ "${xdebug}" = "1" ]; then PeclModules="${PeclModules} xdebug"; fi \
     && apt-get update \
     && apt-get install -y --no-install-recommends $Deps $DevDeps \
