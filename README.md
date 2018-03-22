@@ -31,6 +31,7 @@ Just to highlight some extensions:
 * intl
 * imagick
 * memcached
+* mongodb
 * redis
 
 ```
@@ -62,6 +63,7 @@ libxml
 mbstring
 mcrypt
 memcached
+mongodb
 mysqli
 mysqlnd
 openssl
