@@ -30,6 +30,7 @@ Just to highlight some extensions:
 * apcu
 * intl
 * imagick
+* ldap
 * memcached
 * mongodb
 * redis
@@ -59,6 +60,7 @@ igbinary
 imagick
 intl
 json
+ldap
 libxml
 mbstring
 mcrypt

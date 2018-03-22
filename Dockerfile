@@ -14,6 +14,7 @@ RUN set -xe \
         libgmp-dev \
         libicu-dev \
         libjpeg62-turbo-dev \
+        libldap2-dev \
         libmagickwand-dev \
         libmcrypt-dev \
         libmemcached-dev \
@@ -28,6 +29,7 @@ RUN set -xe \
         libfreetype6 \
         libjpeg62-turbo \
         libicu52 \
+        libldap-2.4-2 \
         libmcrypt4 \
         libmemcached11 \
         libmemcachedutil2 \
@@ -56,6 +58,7 @@ RUN set -xe \
       gmp \
       iconv \
       intl \
+      ldap \
       mcrypt \
       mysqli \
       opcache \
