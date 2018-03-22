@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:5.6-fpm
 
 LABEL maintainer="slaci1@gmail.com"
 
@@ -38,15 +38,20 @@ RUN set -xe \
         libltdl7 \
         libxslt1.1" \
     && PeclModules=" \
-        apcu \
         memcached \
+        igbinary \
         imagick \
         redis \
-        igbinary \
         mongodb" \
     && if [ "${xdebug}" = "1" ]; then PeclModules="${PeclModules} xdebug"; fi \
     && apt-get update \
     && apt-get install -y --no-install-recommends $Deps $DevDeps \
+    && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
+    && ln -s /usr/lib/x86_64-linux-gnu/libldap-2.4.so.2 /usr/lib/liblber-2.4.so.2 \
+    && ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
+    && ln -s /usr/lib/x86_64-linux-gnu/libldap_r-2.4.so.2 /usr/lib/libldap_r-2.4.so.2 \
+    && ln -s /usr/lib/x86_64-linux-gnu/libldap_r-2.4.so.2.10.3 /usr/lib/libldap_r-2.4.so.2.10.3 \
+    && ln -s /usr/lib/x86_64-linux-gnu/libldap_r.so /usr/lib/libldap_r.so \
     && echo $locales >> /etc/locale.gen \
     && locale-gen \
     && docker-php-ext-install -j$(nproc) \
