@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-buster
+FROM php:7.1-fpm-buster
 
 LABEL maintainer="slaci1@gmail.com"
 
@@ -22,7 +22,6 @@ RUN set -xe \
         libpq-dev \
         libxml2-dev \
         libxslt1-dev \
-        libzip-dev \
         zlib1g-dev" \
     && Deps=" \
         locales \
@@ -37,7 +36,6 @@ RUN set -xe \
         libpng16-16 \
         libpq5 \
         libltdl7 \
-        libzip4 \
         libxslt1.1" \
     && PeclModules=" \
         apcu \
