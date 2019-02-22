@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.0-fpm
 
 LABEL maintainer="slaci1@gmail.com"
 
@@ -22,7 +22,6 @@ RUN set -xe \
         libpq-dev \
         libxml2-dev \
         libxslt1-dev \
-        libzip-dev \
         zlib1g-dev" \
     && Deps=" \
         locales \
@@ -37,7 +36,6 @@ RUN set -xe \
         libpng16-16 \
         libpq5 \
         libltdl7 \
-        libzip4 \
         libxslt1.1" \
     && PeclModules=" \
         apcu \
@@ -60,7 +58,6 @@ RUN set -xe \
       gmp \
       iconv \
       intl \
-      ldap \
       mysqli \
       opcache \
       pcntl \
@@ -75,8 +72,9 @@ RUN set -xe \
       xmlrpc \
       xsl \
       zip \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install -j$(nproc) gd ldap \
     && pecl install $PeclModules \
     && docker-php-ext-enable $PeclModules \
     && echo "date.timezone = ${php_timezone}" > "$PHP_INI_DIR/conf.d/001-timezone.ini" \
