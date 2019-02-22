@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7.3-fpm
 
 LABEL maintainer="slaci1@gmail.com"
 
@@ -18,24 +18,26 @@ RUN set -xe \
         libmagickwand-dev \
         libmcrypt-dev \
         libmemcached-dev \
-        libpng12-dev \
+        libpng-dev \
         libpq-dev \
         libxml2-dev \
         libxslt1-dev \
+        libzip-dev \
         zlib1g-dev" \
     && Deps=" \
         locales \
         imagemagick-6.q16 \
         libfreetype6 \
         libjpeg62-turbo \
-        libicu52 \
+        libicu57 \
         libldap-2.4-2 \
         libmcrypt4 \
         libmemcached11 \
         libmemcachedutil2 \
-        libpng12-0 \
+        libpng16-16 \
         libpq5 \
         libltdl7 \
+        libzip4 \
         libxslt1.1" \
     && PeclModules=" \
         apcu \
@@ -59,7 +61,6 @@ RUN set -xe \
       iconv \
       intl \
       ldap \
-      mcrypt \
       mysqli \
       opcache \
       pcntl \
