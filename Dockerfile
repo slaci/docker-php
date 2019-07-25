@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.3-fpm-buster
 
 LABEL maintainer="slaci1@gmail.com"
 
@@ -29,7 +29,7 @@ RUN set -xe \
         imagemagick-6.q16 \
         libfreetype6 \
         libjpeg62-turbo \
-        libicu57 \
+        libicu63 \
         libldap-2.4-2 \
         libmcrypt4 \
         libmemcached11 \
