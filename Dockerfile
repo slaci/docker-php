@@ -3,8 +3,6 @@ FROM php:7.0-fpm
 LABEL maintainer="slaci1@gmail.com"
 
 ARG locales='hu_HU.UTF-8 UTF-8\nen_US.UTF-8 UTF-8'
-ARG php_timezone="Europe/Budapest"
-ARG php_memory_limit="512M"
 ARG xdebug="0"
 
 RUN set -xe \
@@ -77,8 +75,6 @@ RUN set -xe \
     && docker-php-ext-install -j$(nproc) gd ldap \
     && pecl install $PeclModules \
     && docker-php-ext-enable $PeclModules \
-    && echo "date.timezone = ${php_timezone}" > "$PHP_INI_DIR/conf.d/001-timezone.ini" \
-    && echo "memory_limit = ${php_memory_limit}" > "$PHP_INI_DIR/conf.d/002-memory-limit.ini" \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $DevDeps \
     && rm -rf /var/lib/apt/lists/*
 
