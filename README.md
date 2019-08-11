@@ -67,6 +67,7 @@ By default `xdebug` is not installed, but you can rebuild the image with the fol
 ## All installed extensions
 ```
 docker run --rm slaci/php-fpm:7.1 php -m
+
 [PHP Modules]
 apcu
 bcmath
@@ -114,7 +115,6 @@ shmop
 SimpleXML
 soap
 sockets
-sodium
 SPL
 sqlite3
 standard
