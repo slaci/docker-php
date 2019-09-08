@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+set -xe
+
 package="slaci/php-fpm"
-versions=(7.0 7.1 7.2 7.3)
+versions=(7.1 7.2 7.3)
 latestTagName=${versions[-1]}
 
 git fetch
@@ -17,12 +19,9 @@ for v in "${versions[@]}"; do
     tagsArg="$tagsArg -t ${package}:latest"
   fi
 
-  echo "docker build \"$tagsArg\" --no-cache --pull ."
-  echo "docker push \"$tag\""
-  docker build "$tagsArg" --no-cache --pull .
+  docker build $tagsArg --no-cache --pull .
   docker push "$tag"
   if $isLatest; then
-    echo "docker push \"${package}:latest\""
     docker push "${package}:latest"
   fi
 
