@@ -1,4 +1,4 @@
-ARG FROM_VERSION=7.1
+ARG FROM_VERSION=8.0
 FROM php:${FROM_VERSION}-fpm-buster
 
 LABEL maintainer="slaci1@gmail.com"
@@ -18,8 +18,11 @@ RUN set -xe \
         libmemcached-dev \
         libpng-dev \
         libpq-dev \
+        libwebp-dev \
         libxml2-dev \
+        libxpm-dev \
         libxslt1-dev \
+        libzip-dev \
         zlib1g-dev" \
     && Deps=" \
         locales \
@@ -34,11 +37,13 @@ RUN set -xe \
         libpng16-16 \
         libpq5 \
         libltdl7 \
+        libwebp6 \
+        libzip4 \
+        libxpm4 \
         libxslt1.1" \
     && PeclModules=" \
         apcu \
         memcached \
-        imagick \
         redis \
         igbinary \
         mongodb" \
@@ -46,14 +51,18 @@ RUN set -xe \
     && apt-get install -y --no-install-recommends $Deps $DevDeps \
     && echo $locales >> /etc/locale.gen \
     && locale-gen \
+    && mkdir -p /usr/src/php/ext/imagick \
+    && curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
     && docker-php-ext-install -j$(nproc) \
       bz2 \
       bcmath \
       calendar \
       exif \
       gettext \
+      gd \
       gmp \
       iconv \
+      imagick \
       intl \
       ldap \
       mysqli \
@@ -67,10 +76,9 @@ RUN set -xe \
       sysvmsg \
       sysvsem \
       sysvshm \
-      xmlrpc \
       xsl \
       zip \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-jpeg --with-webp --with-xpm --with-freetype \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install $PeclModules \
     && docker-php-ext-enable $PeclModules \

@@ -57,9 +57,7 @@ By default `xdebug` is not installed, but you can rebuild the image with the fol
 
 ## Installed pecl extensions by default:
 * apcu
-* intl
 * imagick
-* ldap
 * memcached
 * mongodb
 * redis
@@ -124,7 +122,6 @@ sysvshm
 tokenizer
 xml
 xmlreader
-xmlrpc
 xmlwriter
 xsl
 Zend OPcache

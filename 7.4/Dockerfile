@@ -1,9 +1,9 @@
-FROM php:7.4-fpm-buster
+ARG FROM_VERSION=7.4
+FROM php:${FROM_VERSION}-fpm-buster
 
 LABEL maintainer="slaci1@gmail.com"
 
 ARG locales='hu_HU.UTF-8 UTF-8\nen_US.UTF-8 UTF-8'
-ARG xdebug="0"
 
 RUN set -xe \
     && DevDeps=" \
@@ -18,7 +18,9 @@ RUN set -xe \
         libmemcached-dev \
         libpng-dev \
         libpq-dev \
+        libwebp-dev \
         libxml2-dev \
+        libxpm-dev \
         libxslt1-dev \
         libzip-dev \
         zlib1g-dev" \
@@ -35,7 +37,9 @@ RUN set -xe \
         libpng16-16 \
         libpq5 \
         libltdl7 \
+        libwebp6 \
         libzip4 \
+        libxpm4 \
         libxslt1.1" \
     && PeclModules=" \
         apcu \
@@ -44,7 +48,6 @@ RUN set -xe \
         redis \
         igbinary \
         mongodb" \
-    && if [ "${xdebug}" = "1" ]; then PeclModules="${PeclModules} xdebug"; fi \
     && apt-get update \
     && apt-get install -y --no-install-recommends $Deps $DevDeps \
     && echo $locales >> /etc/locale.gen \
@@ -74,10 +77,19 @@ RUN set -xe \
       xmlrpc \
       xsl \
       zip \
+    && docker-php-ext-configure gd --with-jpeg --with-webp --with-xpm --with-freetype \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install $PeclModules \
     && docker-php-ext-enable $PeclModules \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $DevDeps \
     && rm -rf /var/lib/apt/lists/*
+
+ARG xdebug="0"
+RUN set -xe; \
+    if [ "${xdebug}" = "1" ]; \
+    then \
+        pecl install xdebug; \
+        docker-php-ext-enable xdebug; \
+    fi
 
 COPY conf.d "$PHP_INI_DIR/conf.d/"

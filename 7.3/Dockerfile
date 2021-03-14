@@ -1,9 +1,9 @@
-FROM php:7.3-fpm-buster
+ARG FROM_VERSION=7.3
+FROM php:${FROM_VERSION}-fpm-buster
 
 LABEL maintainer="slaci1@gmail.com"
 
 ARG locales='hu_HU.UTF-8 UTF-8\nen_US.UTF-8 UTF-8'
-ARG xdebug="0"
 
 RUN set -xe \
     && DevDeps=" \
@@ -44,7 +44,6 @@ RUN set -xe \
         redis \
         igbinary \
         mongodb" \
-    && if [ "${xdebug}" = "1" ]; then PeclModules="${PeclModules} xdebug"; fi \
     && apt-get update \
     && apt-get install -y --no-install-recommends $Deps $DevDeps \
     && echo $locales >> /etc/locale.gen \
@@ -79,5 +78,13 @@ RUN set -xe \
     && docker-php-ext-enable $PeclModules \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $DevDeps \
     && rm -rf /var/lib/apt/lists/*
+
+ARG xdebug="0"
+RUN set -xe; \
+    if [ "${xdebug}" = "1" ]; \
+    then \
+        pecl install xdebug; \
+        docker-php-ext-enable xdebug; \
+    fi
 
 COPY conf.d "$PHP_INI_DIR/conf.d/"
