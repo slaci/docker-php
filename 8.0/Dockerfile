@@ -43,6 +43,7 @@ RUN set -xe \
         libxslt1.1" \
     && PeclModules=" \
         apcu \
+        imagick \
         memcached \
         redis \
         igbinary \
@@ -51,8 +52,6 @@ RUN set -xe \
     && apt-get install -y --no-install-recommends $Deps $DevDeps \
     && echo $locales >> /etc/locale.gen \
     && locale-gen \
-    && mkdir -p /usr/src/php/ext/imagick \
-    && curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
     && docker-php-ext-install -j$(nproc) \
       bz2 \
       bcmath \
@@ -62,7 +61,6 @@ RUN set -xe \
       gd \
       gmp \
       iconv \
-      imagick \
       intl \
       ldap \
       mysqli \

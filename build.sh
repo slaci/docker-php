@@ -6,11 +6,11 @@ FULL_REBUILD=$2
 set -xe
 
 package="slaci/php-fpm"
-declare -A latestBugfixVer=([7.0]=33 ["7.1"]=33 ["7.2"]=34 ["7.3"]=29 ["7.4"]=21 ["8.0"]=8)
+declare -A latestBugfixVer=([7.0]=33 ["7.1"]=33 ["7.2"]=34 ["7.3"]=29 ["7.4"]=22 ["8.0"]=9 ["8.1"]="0beta1")
 latestVersion="8.0"
 
 if [ -z "${BUILD_VERSION}" ]; then
-  versions=("7.3" "7.4" "8.0")
+  versions=("7.4" "8.0")
 else
   versions=("${BUILD_VERSION}")
 fi
