@@ -6,11 +6,11 @@ FULL_REBUILD=$2
 set -xe
 
 package="slaci/php-fpm"
-declare -A latestBugfixVer=([7.0]=33 ["7.1"]=33 ["7.2"]=34 ["7.3"]=29 ["7.4"]=22 ["8.0"]=9 ["8.1"]="0beta1")
+declare -A latestBugfixVer=([7.0]=33 ["7.1"]=33 ["7.2"]=34 ["7.3"]=31 ["7.4"]=25 ["8.0"]=12 ["8.1"]="0RC2")
 latestVersion="8.0"
 
 if [ -z "${BUILD_VERSION}" ]; then
-  versions=("7.4" "8.0")
+  versions=("7.3" "7.4" "8.0")
 else
   versions=("${BUILD_VERSION}")
 fi
@@ -49,13 +49,18 @@ for minorVersion in "${versions[@]}"; do
       tagsToPush="${tagsToPush} ${latestTag}"
     fi
 
-    docker build \
+      #--platform linux/amd64,linux/arm64,linux/arm/v7 \
+    docker buildx build \
+      --platform linux/amd64 \
+      --load \
       --build-arg FROM_VERSION="${fullversion}" \
       --pull \
       ${tagsArg} \
       "${minorVersion}"
 
-    docker build \
+    docker buildx build \
+      --platform linux/amd64 \
+      --load \
       --build-arg FROM_VERSION="${fullversion}" \
       --build-arg xdebug="1" \
       --cache-from "${bugfixTag}" \
